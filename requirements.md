@@ -4,9 +4,9 @@ recipients: street, number, complement, state, city, zip_code
 
 
 # Requisitos funcionais
-[] precisa ter autenticação jwt
-[] necessita de ter usuarios admin
-[] validaçao dos dados 
+[x] precisa ter autenticação jwt
+[x] necessita de ter usuarios admin
+[x] validaçao dos dados 
 
 
 # Requisitos nao funcionais
