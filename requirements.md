@@ -1,17 +1,5 @@
 # Tabelas
 users: name, email, password_hash, admin, timestamps
 recipients: street, number, complement, state, city, zip_code
+couriers: id, name, avatar_id, email
 
-
-# Requisitos funcionais
-[x] precisa ter autenticação jwt
-[x] necessita de ter usuarios admin
-[x] validaçao dos dados 
-
-
-# Requisitos nao funcionais
-
-
-# Regras de negocio
-=> O destinatário não pode se autenticar no sistema, ou seja, não possui senha.
-=> O cadastro de destinatários só pode ser feito por administradores autenticados na aplicação.

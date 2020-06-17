@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import * as Yup from 'yup';
 import jwt from 'jsonwebtoken';
 
-import authConfig from '../../config/authConfig';
+import authConfig from '../config/authConfig';
 import knex from '../database/connection';
 import checkPassword from '../utils/CheckPassword';
 

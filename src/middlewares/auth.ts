@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import { promisify } from 'util';
 import { Request, Response, NextFunction } from 'express';
 
-import authConfig from '../../config/authConfig';
+import authConfig from '../config/authConfig';
 
 interface AuthRequest extends Request {
   userId?: Number;
