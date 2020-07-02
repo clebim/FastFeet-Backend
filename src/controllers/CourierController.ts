@@ -95,28 +95,22 @@ class CourierController {
     const { name, email } = req.body;
 
     if (name && email) {
-      const courierUpdated = await knex('couriers')
-        .where('id', courierId)
-        .update({
-          name,
-          email,
-        });
+      await knex('couriers').where('id', courierId).update({
+        name,
+        email,
+      });
     }
 
     if (name && !email) {
-      const courierUpdated = await knex('couriers')
-        .where('id', courierId)
-        .update({
-          name,
-        });
+      await knex('couriers').where('id', courierId).update({
+        name,
+      });
     }
 
     if (email && !name) {
-      const courierUpdated = await knex('couriers')
-        .where('id', courierId)
-        .update({
-          email,
-        });
+      await knex('couriers').where('id', courierId).update({
+        email,
+      });
     }
 
     const courierUpdated = await knex('couriers')
