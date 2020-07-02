@@ -56,7 +56,18 @@ class CourierController {
     return res.json({ id, name, email, avatar: req.file.filename });
   }
 
-  async index(req: Request, res: Response) {
+  async index(req: ReqId, res: Response) {
+    const userId = <number>req.userId;
+
+    const user = await knex('users')
+      .where('id', userId)
+      .select('admin')
+      .first();
+
+    if (!user) {
+      return res.status(400).json({ error: 'user does not admin' });
+    }
+
     const couriers = await knex('couriers').select('*');
 
     const serializedCouriers = couriers.map((courier) => {
@@ -72,6 +83,17 @@ class CourierController {
   }
 
   async update(req: ReqId, res: Response) {
+    const userId = <number>req.userId;
+
+    const user = await knex('users')
+      .where('id', userId)
+      .select('admin')
+      .first();
+
+    if (!user) {
+      return res.status(400).json({ error: 'user does not admin' });
+    }
+
     const courierId = req.params.id;
 
     const schema = Yup.object().shape({
@@ -121,7 +143,18 @@ class CourierController {
     return res.json(courierUpdated);
   }
 
-  async delete(req: Request, res: Response) {
+  async delete(req: ReqId, res: Response) {
+    const userId = <number>req.userId;
+
+    const user = await knex('users')
+      .where('id', userId)
+      .select('admin')
+      .first();
+
+    if (!user) {
+      return res.status(400).json({ error: 'user does not admin' });
+    }
+
     const courierId = req.params.id;
 
     const courierExists = await knex('couriers')
