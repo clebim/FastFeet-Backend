@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import * as Yup from 'yup';
 
 import knex from '../database/connection';
+import Mail from '../lib/Mail';
 
 interface ReqId extends Request {
   userId?: number;
@@ -42,7 +43,7 @@ class OrderController {
 
     const deliverymanExists = await knex('couriers')
       .where('name', deliveryman)
-      .select('id');
+      .select('id', 'email');
 
     if (deliverymanExists.length === 0) {
       return res.status(400).json({ error: 'deliveryman not exists' });
@@ -52,6 +53,12 @@ class OrderController {
       recipient_id: recipientExists[0].id,
       deliveryman_id: deliverymanExists[0].id,
       product,
+    });
+
+    await Mail.sendMail({
+      to: `${deliveryman} <${deliverymanExists[0].email}>`,
+      sucject: 'new order',
+      text: 'new order already',
     });
 
     return res.json(order);
