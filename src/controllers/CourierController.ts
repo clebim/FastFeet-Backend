@@ -1,19 +1,14 @@
 import { Request, Response } from 'express';
 import * as Yup from 'yup';
 
-import { KnexTimeoutError } from 'knex';
 import knex from '../database/connection';
-
-interface ReqId extends Request {
-  userId?: number;
-}
 
 interface UserAdmin {
   admin: number;
 }
 
 class CourierController {
-  async create(req: ReqId, res: Response) {
+  async create(req: Request, res: Response) {
     const userId = <number>req.userId;
 
     const user = <UserAdmin>(
@@ -56,7 +51,7 @@ class CourierController {
     return res.json({ id, name, email, avatar: req.file.filename });
   }
 
-  async index(req: ReqId, res: Response) {
+  async index(req: Request, res: Response) {
     const userId = <number>req.userId;
 
     const user = await knex('users')
@@ -82,7 +77,7 @@ class CourierController {
     return res.json(serializedCouriers);
   }
 
-  async update(req: ReqId, res: Response) {
+  async update(req: Request, res: Response) {
     const userId = <number>req.userId;
 
     const user = await knex('users')
@@ -143,7 +138,7 @@ class CourierController {
     return res.json(courierUpdated);
   }
 
-  async delete(req: ReqId, res: Response) {
+  async delete(req: Request, res: Response) {
     const userId = <number>req.userId;
 
     const user = await knex('users')

@@ -4,12 +4,8 @@ import * as Yup from 'yup';
 import knex from '../database/connection';
 import Mail from '../lib/Mail';
 
-interface ReqId extends Request {
-  userId?: number;
-}
-
 class OrderController {
-  async create(req: ReqId, res: Response) {
+  async create(req: Request, res: Response) {
     const userId = <number>req.userId;
 
     const user = await knex('users')
@@ -64,7 +60,7 @@ class OrderController {
     return res.json(order);
   }
 
-  async index(req: ReqId, res: Response) {
+  async index(req: Request, res: Response) {
     const userId = <number>req.userId;
 
     const user = await knex('users')
@@ -94,7 +90,7 @@ class OrderController {
     return res.json(orders);
   }
 
-  async update(req: ReqId, res: Response) {
+  async update(req: Request, res: Response) {
     const userId = <number>req.userId;
 
     const user = await knex('users')
@@ -156,7 +152,7 @@ class OrderController {
     return res.json(orderUpdated);
   }
 
-  async delete(req: ReqId, res: Response) {
+  async delete(req: Request, res: Response) {
     const userId = <number>req.userId;
 
     const user = await knex('users')

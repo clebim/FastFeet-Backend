@@ -2,12 +2,8 @@ import { Request, Response } from 'express';
 import { getHours } from 'date-fns';
 import knex from '../database/connection';
 
-interface ReqId extends Request {
-  userId?: number;
-}
-
 class OrderUpdadates {
-  async updateStartDate(req: ReqId, res: Response) {
+  async updateStartDate(req: Request, res: Response) {
     const userId = <number>req.userId;
 
     const user = await knex('users')
@@ -53,7 +49,7 @@ class OrderUpdadates {
     return res.status(200).json(startDate);
   }
 
-  async updateEndDate(req: ReqId, res: Response) {
+  async updateEndDate(req: Request, res: Response) {
     const userId = <number>req.userId;
 
     const user = await knex('users')
@@ -93,7 +89,7 @@ class OrderUpdadates {
     return res.status(200).json({ ok: 'confirmed endDate' });
   }
 
-  async cancelUpdate(req: ReqId, res: Response) {
+  async cancelUpdate(req: Request, res: Response) {
     const userId = <number>req.userId;
 
     const user = await knex('users')

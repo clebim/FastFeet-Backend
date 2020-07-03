@@ -3,16 +3,12 @@ import * as Yup from 'yup';
 
 import knex from '../database/connection';
 
-interface ReqId extends Request {
-  userId?: number;
-}
-
 interface UserAdmin {
   admin: number;
 }
 
 class RecipientController {
-  async create(req: ReqId, res: Response) {
+  async create(req: Request, res: Response) {
     const userId = <number>req.userId;
 
     const user = <UserAdmin>(
@@ -42,7 +38,7 @@ class RecipientController {
     return res.json({ id: recipient[0] });
   }
 
-  async update(req: ReqId, res: Response) {
+  async update(req: Request, res: Response) {
     const userId = <number>req.userId;
 
     const user = <UserAdmin>(

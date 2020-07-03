@@ -6,16 +6,16 @@ import authMiddleware from './middlewares/auth';
 import SessionController from './controllers/SessionController';
 import RecipientController from './controllers/RecipientController';
 import CourierController from './controllers/CourierController';
-import OrderController from './controllers/OrderController';
-import OrderUpdates from './utils/OrderUpdates';
+import OrderController from './controllers/OrdersController';
+import OrderUpdates from './controllers/OrdersUpdatesController';
 
 const routes = express.Router();
 
 const sessionController = new SessionController();
 const recipientController = new RecipientController();
 const courierController = new CourierController();
-const orderController = new OrderController();
-const orderUpdates = new OrderUpdates();
+const ordersController = new OrderController();
+const ordersUpdates = new OrderUpdates();
 
 const upload = multer(multerConfig);
 
@@ -35,14 +35,14 @@ routes.put('/couriers/:id', courierController.update);
 routes.delete('/couriers/:id', courierController.delete);
 
 // routes orders
-routes.post('/orders', orderController.create);
-routes.get('/orders', orderController.index);
-routes.delete('/orders/:id', orderController.delete);
-routes.put('/orders/:id', orderController.update);
+routes.post('/orders', ordersController.create);
+routes.get('/orders', ordersController.index);
+routes.delete('/orders/:id', ordersController.delete);
+routes.put('/orders/:id', ordersController.update);
 
 // routes orders updates()
-routes.get('/orders/date/start/:id', orderUpdates.updateStartDate);
-routes.get('/orders/date/end/:id', orderUpdates.updateEndDate);
-routes.get('/orders/cancel/:id', orderUpdates.cancelUpdate);
+routes.get('/orders/date/start/:id', ordersUpdates.updateStartDate);
+routes.get('/orders/date/end/:id', ordersUpdates.updateEndDate);
+routes.get('/orders/cancel/:id', ordersUpdates.cancelUpdate);
 
 export default routes;
