@@ -43,7 +43,10 @@ routes.delete('/orders/:id', orderController.delete);
 routes.put('/orders/:id', orderController.update);
 
 // routes orders updates()
-routes.get('/orders/date/start/:id', orderUpdates.updateStartDate);
+routes.get(
+  '/orders/date/start/:orderid/deliveryman/:id',
+  orderUpdates.updateStartDate
+);
 routes.get('/orders/date/end/:id', orderUpdates.updateEndDate);
 routes.get('/orders/cancel/:id', orderUpdates.cancelUpdate);
 

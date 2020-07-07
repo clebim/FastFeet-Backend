@@ -1,21 +1,25 @@
 import { Request, Response } from 'express';
-import { getHours } from 'date-fns';
+import { getHours, parseISO, isSameDay } from 'date-fns';
 import knex from '../database/connection';
+
+interface DateOrder {
+  start_date: number | Date;
+}
 
 class OrderUpdadates {
   async updateStartDate(req: Request, res: Response) {
-    const userId = <number>req.userId;
+    const deliverymanId = req.params.id;
 
-    const user = await knex('users')
-      .where('id', userId)
-      .select('admin')
+    const deliverymanExists = await knex('couriers')
+      .where('id', deliverymanId)
+      .select('*')
       .first();
 
-    if (user.admin === 0) {
-      return res.status(401).json({ error: 'user does not admin' });
+    if (!deliverymanExists) {
+      return res.status(401).json({ error: 'Deliveryman does not exists' });
     }
 
-    const orderId = req.params.id;
+    const orderId = req.params.orderid;
 
     const orderExist = await knex('orders')
       .where('id', orderId)
@@ -36,6 +40,34 @@ class OrderUpdadates {
 
     const startDate = new Date();
 
+    const ordersAvailable = await knex('orders')
+      .where('deliveryman_id', deliverymanId)
+      .whereNull('canceled_at')
+      .whereNotNull('start_date')
+      .whereNull('end_date')
+      .select('start_date', 'id');
+
+    const ordersCount = ordersAvailable.map((order) => {
+      if (isSameDay(order.start_date, startDate)) {
+        return { ...order, today: true };
+      }
+
+      return { ...order, today: false };
+    });
+
+    let count = 0;
+
+    // eslint-disable-next-line no-plusplus
+    for (let i = 0; i < ordersCount.length; i++) {
+      if (ordersCount[i].today === true) {
+        count += 1;
+      }
+    }
+
+    if (count > 5) {
+      return res.status(400).json({ error: 'limit reached' });
+    }
+
     const getHour = getHours(startDate);
 
     if (!(getHour > 7 && getHour < 18)) {
@@ -46,7 +78,7 @@ class OrderUpdadates {
       start_date: startDate,
     });
 
-    return res.status(200).json(startDate);
+    return res.status(200).json({ ok: 'updated ' });
   }
 
   async updateEndDate(req: Request, res: Response) {
