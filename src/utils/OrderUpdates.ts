@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { getHours, parseISO, isSameDay } from 'date-fns';
+import { getHours, isSameDay } from 'date-fns';
 import knex from '../database/connection';
 
 interface DateOrder {
@@ -82,15 +82,15 @@ class OrderUpdadates {
   }
 
   async updateEndDate(req: Request, res: Response) {
-    const userId = <number>req.userId;
+    const deliverymanId = req.params.id;
 
-    const user = await knex('users')
-      .where('id', userId)
-      .select('admin')
+    const deliverymanExists = await knex('couriers')
+      .where('id', deliverymanId)
+      .select('*')
       .first();
 
-    if (user.admin === 0) {
-      return res.status(401).json({ error: 'user does not admin' });
+    if (!deliverymanExists) {
+      return res.status(401).json({ error: 'Deliveryman does not exists' });
     }
 
     const orderId = req.params.id;

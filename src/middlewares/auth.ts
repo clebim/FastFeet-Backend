@@ -4,11 +4,7 @@ import { Request, Response, NextFunction } from 'express';
 
 import authConfig from '../config/authConfig';
 
-interface AuthRequest extends Request {
-  userId?: Number;
-}
-
-export default async (req: AuthRequest, res: Response, next: NextFunction) => {
+export default async (req: Request, res: Response, next: NextFunction) => {
   const authHeader = <string>req.headers.authorization;
 
   if (!authHeader) {
