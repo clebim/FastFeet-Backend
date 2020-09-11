@@ -60,7 +60,7 @@ class OrderController {
     return res.json(order);
   }
 
-  async index(req: Request, res: Response) {
+  async index(req: Request, res: Response): Promise<Response> {
     const userId = <number>req.userId;
 
     const user = await knex('users')
@@ -75,22 +75,21 @@ class OrderController {
     const orders = await knex('orders')
       .join('couriers', 'orders.deliveryman_id', '=', 'couriers.id')
       .join('recipients', 'orders.recipient_id', '=', 'recipients.id')
-      .select(
-        'orders.id',
-        'orders.recipient_id',
-        'orders.deliveryman_id',
-        'orders.product',
-        'orders.canceled_at',
-        'orders.start_date',
-        'orders.end_date',
-        'couriers.email',
-        'recipients.name'
-      );
+      .select({
+        name_courier: 'couriers.name',
+        name_recipient: 'recipients.name',
+        id: 'orders.id',
+        canceled_at: 'orders.canceled_at',
+        start_date: 'orders.start_date',
+        end_date: 'orders.end_date',
+        city: 'recipients.city',
+        state: 'recipients.state',
+      });
 
     return res.json(orders);
   }
 
-  async update(req: Request, res: Response) {
+  async update(req: Request, res: Response): Promise<Response> {
     const userId = <number>req.userId;
 
     const user = await knex('users')
@@ -152,7 +151,7 @@ class OrderController {
     return res.json(orderUpdated);
   }
 
-  async delete(req: Request, res: Response) {
+  async delete(req: Request, res: Response): Promise<Response> {
     const userId = <number>req.userId;
 
     const user = await knex('users')

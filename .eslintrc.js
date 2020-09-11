@@ -6,7 +6,7 @@ module.exports = {
   extends: [
     'airbnb-base',
     'prettier',
-    'plugin:import/typescript'
+    'plugin:import/typescript',
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
@@ -25,6 +25,7 @@ module.exports = {
     'no-param-reassign': 'off',
     'camelcase': 'off',
     'no-unused-vars': 'off',
+    "no-explicit-any": "off"
     //'no-unused-vars': ['error', { argsIgnorePattern: 'next', varsIgnorePattern: 'Knex', }],
   },
   

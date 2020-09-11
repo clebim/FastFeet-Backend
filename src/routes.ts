@@ -30,6 +30,7 @@ routes.use(authMiddleware);
 
 // routes recipient
 routes.post('/recipients', recipientController.create);
+routes.get('/recipients', recipientController.index);
 routes.put('/recipients/:id', recipientController.update);
 
 // routes couriers

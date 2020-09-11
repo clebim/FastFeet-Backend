@@ -8,6 +8,19 @@ interface UserAdmin {
 }
 
 class RecipientController {
+  async index(req: Request, res: Response) {
+    const recipients = await knex('recipients').select(
+      'id',
+      'name',
+      'street',
+      'number',
+      'state',
+      'city'
+    );
+
+    return res.json(recipients);
+  }
+
   async create(req: Request, res: Response) {
     const userId = <number>req.userId;
 

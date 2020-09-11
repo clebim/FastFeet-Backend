@@ -65,12 +65,14 @@ class CourierController {
 
     const couriers = await knex('couriers').select('*');
 
+    const server = 'http://localhost:3333';
+
     const serializedCouriers = couriers.map((courier) => {
       return {
         id: courier.id,
         name: courier.name,
         email: courier.email,
-        avatar: courier.avatar,
+        avatar_url: `${server}/uploads/${courier.avatar}`,
       };
     });
 
