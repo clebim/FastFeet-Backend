@@ -57,7 +57,7 @@ class OrderController {
       text: 'new order already',
     });
 
-    return res.json(order);
+    return res.status(200).json({ id: order });
   }
 
   async index(req: Request, res: Response): Promise<Response> {

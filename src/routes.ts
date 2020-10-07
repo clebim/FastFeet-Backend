@@ -8,6 +8,8 @@ import RecipientController from './controllers/RecipientController';
 import CourierController from './controllers/CourierController';
 import OrderController from './controllers/OrderController';
 import DeliveryProblems from './controllers/Delivery_ProblemsController';
+import ListCouriersController from './controllers/ListCouriersController';
+import ListRecipientsController from './controllers/ListRecipientsController';
 import OrderUpdates from './utils/OrderUpdates';
 import OrderList from './utils/OrderList';
 
@@ -65,5 +67,11 @@ routes.post('/delivery/:id/problems', deliveryProblems.create);
 routes.get('/delivery/problems', deliveryProblems.index);
 routes.get('/delivery/:id/problems', deliveryProblems.store);
 routes.delete('/delivery/:id/cancel_problem', deliveryProblems.delete);
+
+// route list couriers
+routes.get('/couriers/list', ListCouriersController.index);
+
+// route list Recipients
+routes.get('/recipients/list', ListRecipientsController.index);
 
 export default routes;
